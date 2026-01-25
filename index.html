@@ -24,7 +24,7 @@
 
   <script>
     const timerEl = document.getElementById("timer");
-    const target = new Date("2026-02-14T00:00:00+03:00");
+    const target = new Date(Date.now() + 10 * 1000);
 
     function updateTimer() {
       const now = new Date();
