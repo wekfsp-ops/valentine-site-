@@ -23,31 +23,29 @@
   </p>
 
   <script>
-  const timerEl = document.getElementById("timer");
+    const timerEl = document.getElementById("timer");
+    const target = new Date(Date.now() + 60 * 60 * 1000); // тест: 1 час
 
-  // тест: 1 час с текущего момента
-  const target = new Date(Date.now() + 60 * 60 * 1000);
+    function updateTimer() {
+      const now = new Date();
+      const diff = target - now;
 
-  function updateTimer() {
-    const now = new Date();
-    const diff = target - now;
+      if (diff <= 0) {
+        timerEl.innerText = "💜";
+        return;
+      }
 
-    if (diff <= 0) {
-      timerEl.innerText = "💜";
-      return;
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      timerEl.innerText = `${d}д ${h}ч ${m}м ${s}с`;
     }
 
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const m = Math.floor((diff / (1000 * 60)) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-
-    timerEl.innerText = `${d}д ${h}ч ${m}м ${s}с`;
-  }
-
-  updateTimer();
-  setInterval(updateTimer, 1000);
-</script>
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
 
 </body>
 </html>
