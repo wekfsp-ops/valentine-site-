@@ -1,4 +1,28 @@
-<script>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>💜 скоро</title>
+</head>
+
+<body style="
+  text-align:center;
+  font-family:Arial, sans-serif;
+  background:#F6E6FA;
+  color:#5A2A6E;
+  padding-top:100px;
+">
+
+  <h1>ой, ты слишком рано.</h1>
+  <p>нужно еще немножко подождать</p>
+
+  <h2 id="timer" style="margin-top:40px; font-size:32px;"></h2>
+
+  <p style="margin-top:20px; font-style:italic;">
+    любовь ведь стоит того, чтобы ждать?
+  </p>
+
+  <script>
   const timerEl = document.getElementById("timer");
 
   // тест: 1 час с текущего момента
@@ -24,9 +48,6 @@
   updateTimer();
   setInterval(updateTimer, 1000);
 </script>
-    setInterval(updateTimer, 1000);
-    updateTimer();
-  </script>
 
 </body>
 </html>
