@@ -1,51 +1,118 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>💜 скоро</title>
+<meta charset="UTF-8">
+<title>💜 скоро</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #F6E6FA, #FFE6F0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #5A2A6E;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .wrapper {
+    z-index: 2;
+  }
+
+  h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+  }
+
+  .sub {
+    font-size: 22px;
+    margin-bottom: 40px;
+  }
+
+  #timer {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+
+  .question {
+    font-size: 18px;
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  /* сердечки / поцелуйчики */
+  .float {
+    position: absolute;
+    bottom: -30px;
+    animation: floatUp linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-120vh); }
+  }
+</style>
 </head>
 
-<body style="
-  text-align:center;
-  font-family:Arial, sans-serif;
-  background:#F6E6FA;
-  color:#5A2A6E;
-  padding-top:100px;
-">
+<body>
 
+<div class="wrapper">
   <h1>ой, ты слишком рано.</h1>
-  <p>нужно еще немножко подождать</p>
+  <div class="sub">нужно еще немножко подождать</div>
 
-  <h2 id="timer" style="margin-top:40px; font-size:32px;"></h2>
+  <div id="timer">⏳</div>
 
-  <p style="margin-top:20px; font-style:italic;">
+  <div class="question">
     любовь ведь стоит того, чтобы ждать?
-  </p>
+  </div>
+</div>
 
-  <script>
-    const timerEl = document.getElementById("timer");
-    const target = new Date("2026-02-14T00:00:00+03:00");
+<script>
+  // ДАТА — 14 февраля, МСК
+  const target = new Date("2026-02-14T00:00:00+03:00");
+  const timerEl = document.getElementById("timer");
 
-    function updateTimer() {
-      const now = new Date();
-      const diff = target - now;
+  function updateTimer() {
+    const now = new Date();
+    const diff = target - now;
 
-      if (diff <= 0) {
-  window.location.href = "question.html";
-  return;
-}
-
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-
-      timerEl.innerText = `${d}д ${h}ч ${m}м ${s}с`;
+    if (diff <= 0) {
+      window.location.href = "question.html";
+      return;
     }
 
-    updateTimer();
-    setInterval(updateTimer, 1000);
-  </script>
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    timerEl.innerText = `${d}д ${h}ч ${m}м ${s}с`;
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  // сердечки и поцелуйчики
+  const emojis = ["💜", "💖", "💋", "💕"];
+
+  setInterval(() => {
+    const el = document.createElement("div");
+    el.className = "float";
+    el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.fontSize = (18 + Math.random() * 18) + "px";
+    el.style.animationDuration = (6 + Math.random() * 6) + "s";
+
+    document.body.appendChild(el);
+
+    setTimeout(() => el.remove(), 12000);
+  }, 500);
+</script>
 
 </body>
 </html>
