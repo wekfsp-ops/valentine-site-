@@ -8,12 +8,13 @@
 body {
   margin: 0;
   height: 100vh;
-  background: #F6E6FA;
+  background: linear-gradient(135deg, #F6E6FA, #FFE6F0);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: Arial, sans-serif;
   color: #5A2A6E;
+  overflow: hidden;
 }
 
 .container {
@@ -22,13 +23,32 @@ body {
 
 /* КОНВЕРТ */
 .envelope {
-  width: 220px;
-  height: 140px;
+  width: 280px;          /* БОЛЬШЕ */
+  height: 180px;
   background: #FFB3C6;
-  border-radius: 12px;
+  border-radius: 18px;
   position: relative;
   cursor: pointer;
   margin: 0 auto;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.envelope:hover {
+  transform: scale(1.04);
+}
+
+/* НАДПИСЬ НА КОНВЕРТЕ */
+.envelope-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: white;
+  pointer-events: none;
 }
 
 /* КЛАПАН */
@@ -39,60 +59,41 @@ body {
   width: 100%;
   height: 100%;
   background: #FF8FAB;
-  clip-path: polygon(0 0, 50% 60%, 100% 0);
+  clip-path: polygon(0 0, 50% 65%, 100% 0);
   transform-origin: top;
-  transition: transform 0.6s ease;
-  border-radius: 12px 12px 0 0;
+  transition: transform 0.7s ease;
+  border-radius: 18px 18px 0 0;
 }
 
-/* ЗАПИСКА */
-.paper {
+/* ОКОШКО ВЫБОРА */
+.note {
   position: absolute;
-  bottom: 10px;
   left: 50%;
+  bottom: 10px;
   transform: translateX(-50%);
-  width: 180px;
-  height: 100px;
+  width: 230px;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   opacity: 0;
-  transition: all 0.6s ease;
+  transition: all 0.7s ease;
 }
 
-/* СОСТОЯНИЕ ОТКРЫТО */
+/* ОТКРЫТО */
 .envelope.open .flap {
   transform: rotateX(180deg);
 }
 
-.envelope.open .paper {
-  bottom: 90px;
+.envelope.open .note {
+  bottom: 110px;
   opacity: 1;
 }
 
-/* ОКОШКО С ВОПРОСОМ */
-.note {
-  margin-top: 30px;
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  display: none;
-  animation: pop 0.4s ease;
-}
-
-@keyframes pop {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
+/* КНОПКИ */
 button {
-  margin: 15px;
-  padding: 10px 25px;
+  margin: 12px;
+  padding: 10px 22px;
   border: none;
   border-radius: 20px;
   font-size: 16px;
@@ -111,7 +112,22 @@ button {
 
 .hint {
   font-size: 14px;
+  margin-top: 8px;
   opacity: 0.8;
+}
+
+/* ПЛАВАЮЩИЕ ЭМОДЗИ */
+.float {
+  position: absolute;
+  bottom: -40px;
+  animation: floatUp linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-120vh); }
 }
 </style>
 </head>
@@ -122,28 +138,24 @@ button {
 
   <div class="envelope" id="env" onclick="openEnvelope()">
     <div class="flap"></div>
-    <div class="paper">нажми 💌</div>
-  </div>
 
-  <div class="note" id="note">
-    <p style="font-size:18px;">станешь моей валентинкой? 🥺</p>
+    <div class="envelope-text">нажми 💌</div>
 
-    <button class="yes" onclick="goNext()">да</button>
-    <button class="no" id="noBtn" onclick="nope()">нет</button>
+    <div class="note" id="note">
+      <p style="font-size:18px;">станешь моей валентинкой? 🥺</p>
 
-    <div class="hint" id="hint"></div>
+      <button class="yes" onclick="goNext()">да</button>
+      <button class="no" id="noBtn" onclick="nope()">нет</button>
+
+      <div class="hint" id="hint"></div>
+    </div>
   </div>
 
 </div>
 
 <script>
 function openEnvelope() {
-  const env = document.getElementById("env");
-  env.classList.add("open");
-
-  setTimeout(() => {
-    document.getElementById("note").style.display = "block";
-  }, 700);
+  document.getElementById("env").classList.add("open");
 }
 
 function nope() {
@@ -159,6 +171,21 @@ function nope() {
 function goNext() {
   window.location.href = "card.html";
 }
+
+/* МИЛЫЕ ЭМОДЗИ */
+const emojis = ["💜","💖","💕","💋","😽"];
+
+setInterval(() => {
+  const el = document.createElement("div");
+  el.className = "float";
+  el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.fontSize = (26 + Math.random() * 20) + "px";
+  el.style.animationDuration = (7 + Math.random() * 6) + "s";
+
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 13000);
+}, 600);
 </script>
 
 </body>
