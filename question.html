@@ -23,7 +23,7 @@ body {
 
 /* КОНВЕРТ */
 .envelope {
-  width: 280px;          /* БОЛЬШЕ */
+  width: 280px;
   height: 180px;
   background: #FFB3C6;
   border-radius: 18px;
@@ -31,14 +31,8 @@ body {
   cursor: pointer;
   margin: 0 auto;
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease;
 }
 
-.envelope:hover {
-  transform: scale(1.04);
-}
-
-/* НАДПИСЬ НА КОНВЕРТЕ */
 .envelope-text {
   position: absolute;
   inset: 0;
@@ -49,6 +43,8 @@ body {
   font-weight: bold;
   color: white;
   pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 2;
 }
 
 /* КЛАПАН */
@@ -63,39 +59,53 @@ body {
   transform-origin: top;
   transition: transform 0.7s ease;
   border-radius: 18px 18px 0 0;
+  z-index: 1;
 }
 
-/* ОКОШКО ВЫБОРА */
+/* ОКОШКО */
 .note {
   position: absolute;
   left: 50%;
   bottom: 10px;
-  transform: translateX(-50%);
-  width: 230px;
+  transform: translateX(-50%) scale(0.9);
+  width: 240px;
   background: white;
-  border-radius: 18px;
-  padding: 22px;
+  border-radius: 20px;
+  padding: 24px 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   opacity: 0;
-  transition: all 0.7s ease;
+  pointer-events: none;
+  transition: all 0.6s ease;
+  z-index: 3;
+  text-align: center;
 }
 
-/* ОТКРЫТО */
 .envelope.open .flap {
   transform: rotateX(180deg);
 }
 
 .envelope.open .note {
-  bottom: 110px;
+  bottom: 130px;
   opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
 }
 
-/* КНОПКИ */
+.envelope.open .envelope-text {
+  opacity: 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 button {
-  margin: 12px;
-  padding: 10px 22px;
+  padding: 10px 26px;
   border: none;
-  border-radius: 20px;
+  border-radius: 22px;
   font-size: 16px;
   cursor: pointer;
 }
@@ -115,77 +125,53 @@ button {
   margin-top: 8px;
   opacity: 0.8;
 }
-
-/* ПЛАВАЮЩИЕ ЭМОДЗИ */
-.float {
-  position: absolute;
-  bottom: -40px;
-  animation: floatUp linear infinite;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-@keyframes floatUp {
-  from { transform: translateY(0); }
-  to { transform: translateY(-120vh); }
-}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
   <div class="envelope" id="env" onclick="openEnvelope()">
     <div class="flap"></div>
-
     <div class="envelope-text">нажми 💌</div>
 
-    <div class="note" id="note">
+    <div class="note">
       <p style="font-size:18px;">станешь моей валентинкой? 🥺</p>
 
-      <button class="yes" onclick="goNext()">да</button>
-      <button class="no" id="noBtn" onclick="nope()">нет</button>
+      <div class="buttons">
+        <button class="yes" onclick="goNext()">да</button>
+        <button class="no" id="noBtn" onclick="nope()">нет</button>
+      </div>
 
       <div class="hint" id="hint"></div>
     </div>
   </div>
-
 </div>
 
 <script>
+let triedNo = false;
+
 function openEnvelope() {
   document.getElementById("env").classList.add("open");
 }
 
 function nope() {
-  const noBtn = document.getElementById("noBtn");
   const hint = document.getElementById("hint");
+  const noBtn = document.getElementById("noBtn");
 
-  hint.innerText = "хм… давай ещё раз 😌";
-  noBtn.innerText = "да";
-  noBtn.className = "yes";
-  noBtn.onclick = goNext;
+  if (!triedNo) {
+    hint.innerText = "хм… давай ещё раз 😌";
+    triedNo = true;
+  } else {
+    noBtn.innerText = "да";
+    noBtn.className = "yes";
+    noBtn.onclick = goNext;
+  }
 }
 
 function goNext() {
   window.location.href = "card.html";
 }
-
-/* МИЛЫЕ ЭМОДЗИ */
-const emojis = ["💜","💖","💕","💋","😽"];
-
-setInterval(() => {
-  const el = document.createElement("div");
-  el.className = "float";
-  el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-  el.style.left = Math.random() * 100 + "vw";
-  el.style.fontSize = (26 + Math.random() * 20) + "px";
-  el.style.animationDuration = (7 + Math.random() * 6) + "s";
-
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 13000);
-}, 600);
 </script>
 
 </body>
