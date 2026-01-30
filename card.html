@@ -19,46 +19,46 @@ body {
 
 /* КНИЖКА */
 .book {
-  width: 340px;
-  height: 440px;
-  perspective: 1200px;
-  cursor: pointer;
+  width: 640px;
+  height: 420px;
+  perspective: 1400px;
+  position: relative;
 }
 
+/* ЛЕВАЯ И ПРАВАЯ СТРАНИЦЫ */
 .page {
-  width: 100%;
+  position: absolute;
+  top: 0;
+  width: 50%;
   height: 100%;
   background: white;
   border-radius: 18px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  position: absolute;
   backface-visibility: hidden;
   transition: transform 1s ease;
 }
 
-/* ОБЛОЖКА */
-.cover {
+/* ЛЕВАЯ — ОБЛОЖКА */
+.left {
+  left: 0;
   background: linear-gradient(135deg, #FFB3C6, #E598D8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-  color: white;
+  transform-origin: left;
   z-index: 2;
 }
 
-.cover span {
-  animation: pulse 1.8s infinite;
+/* ТЕКСТ "ОТКРОЙ" */
+.open-text {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  font-size: 18px;
+  color: white;
+  opacity: 0.9;
 }
 
-@keyframes pulse {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
-}
-
-/* ВНУТРЕННЯЯ СТРАНИЦА */
-.inside {
+/* ПРАВАЯ — ТЕКСТ */
+.right {
+  right: 0;
   padding: 32px;
   line-height: 1.5;
   font-size: 15px;
@@ -66,21 +66,30 @@ body {
 }
 
 /* ОТКРЫТИЕ */
-.book.open .cover {
+.book.open .left {
   transform: rotateY(-180deg);
 }
 
-.book.open .inside {
+.book.open .right {
   transform: rotateY(0deg);
 }
 
 /* СТРЕЛКА */
-.arrow {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 26px;
+.next {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   cursor: pointer;
-  opacity: 0.8;
+}
+
+.arrow {
+  font-size: 36px;
+}
+
+.next-text {
+  font-size: 18px;
+  opacity: 0.85;
 }
 
 /* СЕРДЕЧКИ */
@@ -103,11 +112,14 @@ body {
 <body>
 
 <div class="book" id="book" onclick="openBook()">
-  <div class="page cover">
-    <span>нажми 💜</span>
+
+  <!-- ЛЕВАЯ СТРАНИЦА -->
+  <div class="page left">
+    <div class="open-text">открой</div>
   </div>
 
-  <div class="page inside">
+  <!-- ПРАВАЯ СТРАНИЦА -->
+  <div class="page right">
     <p><strong>УРА ТЫ МОЯ ВАЛЕНТИНКА КОТИК.</strong></p>
 
     <p>
@@ -130,8 +142,12 @@ body {
       с нашим маленьким днем тебя?
     </p>
 
-    <div class="arrow" onclick="goNext(event)">➝</div>
+    <div class="next" onclick="goNext(event)">
+      <div class="arrow">➝</div>
+      <div class="next-text">идем дальше? 👉🏻👈🏻</div>
+    </div>
   </div>
+
 </div>
 
 <script>
