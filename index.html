@@ -20,41 +20,43 @@
 
   .wrapper {
     z-index: 2;
+    padding: 20px;
   }
 
   h1 {
-    font-size: 42px;
-    margin-bottom: 10px;
+    font-size: 64px;        /* БОЛЬШОЙ ЗАГОЛОВОК */
+    margin-bottom: 20px;
   }
 
   .sub {
-    font-size: 22px;
-    margin-bottom: 40px;
+    font-size: 32px;        /* ПОДЗАГОЛОВОК */
+    margin-bottom: 50px;
   }
 
   #timer {
-    font-size: 48px;
+    font-size: 72px;        /* ОГРОМНЫЙ ТАЙМЕР */
     font-weight: bold;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
   }
 
   .question {
-    font-size: 18px;
+    font-size: 26px;
     font-style: italic;
     opacity: 0.85;
   }
 
-  /* сердечки / поцелуйчики */
+  /* ПЛЫВУЩИЕ ЭМОДЗИ */
   .float {
     position: absolute;
-    bottom: -30px;
+    bottom: -40px;
     animation: floatUp linear infinite;
-    opacity: 0.7;
+    opacity: 0.8;
+    pointer-events: none;
   }
 
   @keyframes floatUp {
     from { transform: translateY(0); }
-    to { transform: translateY(-120vh); }
+    to { transform: translateY(-130vh); }
   }
 </style>
 </head>
@@ -97,21 +99,20 @@
   updateTimer();
   setInterval(updateTimer, 1000);
 
-  // сердечки и поцелуйчики
-  const emojis = ["💜", "💖", "💋", "💕"];
+  /* 🔥 СЮДА ТЫ ВСТАВИШЬ СВОИ ЭМОДЗИ 🔥 */
+  const emojis = ["💗", "💕", "💋", "🫦"]; // ← можешь заменить
 
   setInterval(() => {
     const el = document.createElement("div");
     el.className = "float";
     el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     el.style.left = Math.random() * 100 + "vw";
-    el.style.fontSize = (18 + Math.random() * 18) + "px";
-    el.style.animationDuration = (6 + Math.random() * 6) + "s";
+    el.style.fontSize = (32 + Math.random() * 28) + "px"; // КРУПНЫЕ ЭМОДЗИ
+    el.style.animationDuration = (7 + Math.random() * 6) + "s";
 
     document.body.appendChild(el);
-
-    setTimeout(() => el.remove(), 12000);
-  }, 500);
+    setTimeout(() => el.remove(), 14000);
+  }, 400);
 </script>
 
 </body>
