@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>📖 открытка</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #F6E6FA, #FFE6F0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: #5A2A6E;
+  overflow: hidden;
+}
+
+/* КНИЖКА */
+.book {
+  width: 340px;
+  height: 440px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  position: absolute;
+  backface-visibility: hidden;
+  transition: transform 1s ease;
+}
+
+/* ОБЛОЖКА */
+.cover {
+  background: linear-gradient(135deg, #FFB3C6, #E598D8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: white;
+  z-index: 2;
+}
+
+.cover span {
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ВНУТРЕННЯЯ СТРАНИЦА */
+.inside {
+  padding: 32px;
+  line-height: 1.5;
+  font-size: 15px;
+  transform: rotateY(180deg);
+}
+
+/* ОТКРЫТИЕ */
+.book.open .cover {
+  transform: rotateY(-180deg);
+}
+
+.book.open .inside {
+  transform: rotateY(0deg);
+}
+
+/* СТРЕЛКА */
+.arrow {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 26px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* СЕРДЕЧКИ */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  color: #FF8FAB;
+  font-size: 18px;
+  animation: float 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 0.6; }
+  to { transform: translateY(-120vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="book" id="book" onclick="openBook()">
+  <div class="page cover">
+    <span>нажми 💜</span>
+  </div>
+
+  <div class="page inside">
+    <p><strong>УРА ТЫ МОЯ ВАЛЕНТИНКА КОТИК.</strong></p>
+
+    <p>
+      поздравляю тебя с этим днем,<br>
+      праздником всех влюбленных<br>
+      (мы кстати влюбленные да).
+    </p>
+
+    <p>
+      несмотря на то что между нами тысячи километров,<br>
+      ты — мой самый близкий человек,<br>
+      ты — моё сердце.
+    </p>
+
+    <p>
+      очень сильно тебя люблю, артур.
+    </p>
+
+    <p>
+      с нашим маленьким днем тебя?
+    </p>
+
+    <div class="arrow" onclick="goNext(event)">➝</div>
+  </div>
+</div>
+
+<script>
+function openBook() {
+  document.getElementById("book").classList.add("open");
+}
+
+// сердечки
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💜";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (14 + Math.random() * 10) + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 6000);
+}, 700);
+
+function goNext(e) {
+  e.stopPropagation();
+  window.location.href = "date.html";
+}
+</script>
+
+</body>
+</html>
