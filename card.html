@@ -18,87 +18,88 @@ body {
 }
 
 /* ОБЁРТКА */
-.card-wrapper {
+.wrapper {
   width: 320px;
   height: 420px;
-  perspective: 1600px;
-  cursor: pointer;
+  transition: width 0.9s ease;
+  position: relative;
 }
 
-/* КАРТОЧКА */
+/* РАСКРЫТО */
+.wrapper.open {
+  width: 640px;
+}
+
+/* ОБЩАЯ КАРТОЧКА */
 .card {
   width: 100%;
   height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1.2s ease;
+  display: flex;
+  border-radius: 22px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  overflow: hidden;
+  cursor: pointer;
 }
 
-/* СОСТОЯНИЕ ОТКРЫТО */
-.card.open {
-  transform: translateX(-160px);
-}
-
-/* ПОЛОВИНКИ */
-.half {
+/* ОБЛОЖКА */
+.cover {
   position: absolute;
-  top: 0;
-  width: 320px;
-  height: 100%;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  backface-visibility: hidden;
+  inset: 0;
+  background: linear-gradient(135deg, #FF8FAB, #E056A7);
+  border-radius: 22px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 20px;
+  transition: opacity 0.6s ease;
 }
 
-/* ЛЕВАЯ */
+.cover span {
+  color: white;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* СКРЫВАЕМ ОБЛОЖКУ */
+.wrapper.open .cover {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* СТРАНИЦЫ */
+.page {
+  width: 50%;
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+/* СГИБ */
+.spine {
+  width: 4px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+}
+
+/* ЛЕВАЯ — ПАТТЕРН */
 .left {
-  left: 0;
   background: #FFF0F6;
-  transform-origin: left;
-  transform: rotateY(0deg);
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255, 90, 140, 0.35);
 }
 
-/* ПРАВАЯ */
-.right {
-  left: 0;
-  padding: 30px;
-  transform-origin: right;
-  transform: rotateY(180deg);
-}
-
-/* ОТКРЫТИЕ */
-.card.open .left {
-  transform: rotateY(-180deg);
-}
-
-.card.open .right {
-  transform: rotateY(0deg);
-}
-
-/* ФОН "ЛЮБЛЮ" */
-.love-bg {
-  font-size: 12px;
-  line-height: 1.4;
-  color: rgba(255, 90, 140, 0.25);
-  user-select: none;
-  padding: 18px;
-  height: 100%;
-}
-
-/* ТЕКСТ */
-.text p {
+/* ПРАВАЯ — ТЕКСТ */
+.right p {
   margin-bottom: 12px;
   font-size: 15px;
 }
 
 /* ПЕРЕХОД */
 .next {
-  margin-top: 20px;
+  margin-top: 18px;
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
 }
 
 .arrow {
@@ -109,70 +110,58 @@ body {
   font-size: 18px;
   opacity: 0.85;
 }
-
-/* СЕРДЕЧКИ */
-.heart {
-  position: absolute;
-  bottom: -20px;
-  color: #FF8FAB;
-  font-size: 18px;
-  animation: float 6s linear infinite;
-  opacity: 0.6;
-}
-
-@keyframes float {
-  from { transform: translateY(0); opacity: 0.6; }
-  to { transform: translateY(-120vh); opacity: 0; }
-}
 </style>
 </head>
 
 <body>
 
-<div class="card-wrapper" onclick="openCard()">
-  <div class="card" id="card">
+<div class="wrapper" id="wrap" onclick="openCard()">
 
-    <!-- ЛЕВАЯ СТОРОНА -->
-    <div class="half left">
-      <div class="love-bg">
-        люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю  
-        люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю  
-        люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю  
-        люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю  
-        люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю  
-        люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю  
-      </div>
+  <!-- ОБЛОЖКА -->
+  <div class="cover">
+    <span>открывай 💜</span>
+  </div>
+
+  <!-- КНИЖЕЧКА -->
+  <div class="card">
+
+    <div class="page left">
+      люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю<br>
+      люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю<br>
+      люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю<br>
+      люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю<br>
+      люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю<br>
+      люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю
     </div>
 
-    <!-- ПРАВАЯ СТОРОНА -->
-    <div class="half right">
-      <div class="text">
-        <p><strong>УРА ТЫ МОЯ ВАЛЕНТИНКА КОТИК.</strong></p>
+    <div class="spine"></div>
 
-        <p>
-          поздравляю тебя с этим днем,<br>
-          праздником всех влюбленных<br>
-          (мы кстати влюбленные да).
-        </p>
+    <div class="page right">
+      <p><strong>УРА ТЫ МОЯ ВАЛЕНТИНКА КОТИК.</strong></p>
 
-        <p>
-          несмотря на то что между нами тысячи километров,<br>
-          ты — мой самый близкий человек,<br>
-          ты — моё сердце.
-        </p>
+      <p>
+        поздравляю тебя с этим днем,<br>
+        праздником всех влюбленных<br>
+        (мы кстати влюбленные да).
+      </p>
 
-        <p>
-          очень сильно тебя люблю, артур.
-        </p>
+      <p>
+        несмотря на то что между нами тысячи километров,<br>
+        ты — мой самый близкий человек,<br>
+        ты — моё сердце.
+      </p>
 
-        <p>
-          с нашим маленьким днем тебя?
-        </p>
+      <p>
+        очень сильно тебя люблю, артур.
+      </p>
 
-        <div class="next" onclick="goNext(event)">
-          <div class="arrow">➝</div>
-          <div class="next-text">идем дальше? 👉🏻👈🏻</div>
-        </div>
+      <p>
+        с нашим маленьким днем тебя?
+      </p>
+
+      <div class="next" onclick="goNext(event)">
+        <div class="arrow">➝</div>
+        <div class="next-text">идем дальше? 👉🏻👈🏻</div>
       </div>
     </div>
 
@@ -181,19 +170,8 @@ body {
 
 <script>
 function openCard() {
-  document.getElementById("card").classList.add("open");
+  document.getElementById("wrap").classList.add("open");
 }
-
-// сердечки
-setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerText = "💜";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (14 + Math.random() * 10) + "px";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}, 700);
 
 function goNext(e) {
   e.stopPropagation();
