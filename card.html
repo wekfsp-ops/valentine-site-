@@ -85,18 +85,30 @@ body {
 }
 
 .left {
+  position: relative;
   background: #FFF0F6;
+  overflow: hidden;
+}
+
+/* ПОВТОРЯЮЩЕЕСЯ "ЛЮБЛЮ" */
+.left::before {
+  content:
+    "люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю "
+    "люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю "
+    "люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   font-size: 11px;
   line-height: 1.6;
-  color: rgba(255, 90, 140, 0.28);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 18px,
-      rgba(255,90,140,0.08) 18px,
-      rgba(255,90,140,0.08) 19px
-    );
+  color: rgba(255, 90, 140, 0.35);
+
+  white-space: pre-wrap;
+  padding: 20px;
+  user-select: none;
 }
 
 /* ПРАВАЯ — ТЕКСТ */
@@ -150,9 +162,7 @@ body {
   <!-- КНИЖЕЧКА -->
   <div class="card">
 
-    <div class="page left">
-  люблю люблю люблю люблю люблю люблю люблю люблю люблю люблю
-</div>
+    <div class="page left"></div>
 
     <div class="spine"></div>
 
